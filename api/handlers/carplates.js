@@ -64,9 +64,38 @@ exports.deleteCarplate = async function(req, res, next) {
 
 exports.getAllCarplates = async function(req, res, next) {
     try {
-        let carplates = await db.Carplate.find().sort({ createdAt: "desc"});
+        const items_per_page = req.query.items_per_page    ? parseInt(req.query.items_per_page) : 10;
+        const page       = req.query.page     ? parseInt(req.query.page)  : 1;
+        const sortby     = req.query.sortby   ? req.query.sortby          : "name";
+        const orderby    = req.query.orderby  ? req.query.orderby         : "desc";
+        const filter     = req.query.filter   ? req.query.filter          : "";
+        const filteroption = req.query.filteroption ? req.query.filteroption : "name";
 
-        return res.status(200).json(carplates);
+        const sortQuery = {
+            [sortby]: orderby
+        };
+        const filterQuery = {
+            [filteroption]: new RegExp(filter, 'i')
+        };
+
+        db.Carplate.countDocuments(filterQuery)
+            .then(carplateCount => {
+                db.Carplate.find(filterQuery)
+                .skip((page - 1)  * items_per_page)
+                .limit(items_per_page)
+                .sort(sortQuery)
+                .then(carplates => {
+                    return res.status(200).json({
+                        carplates,
+                        page: page,
+                        total: carplateCount,
+                        items_per_page: items_per_page
+                    });
+                })
+            })
+            .catch(error => {
+                return next(error);
+            })
     } catch (error) {
         return next(error);
     }
