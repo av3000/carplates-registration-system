@@ -5,33 +5,38 @@ const OWNER_NAME_MIN_LENGTH = 3;
 
 exports.storeCarplate = async function(req, res, next) {
     try {
-        // Validate req.body.plate
-        // 
-        // numbers to upperCase
-        // plate.length === 6 digits
-        // first 3 letters and 3 last numbers
-        // regex unwanted symbols.
+        let error = {};
+        let validatedBody = {};
 
-        // Validate req.body.name
-        // name to upperCase
-        // max === 30 && min === 3
-        // regex unwanted symbols
+        if( !req.body.plate || !req.body.name){
+            error.message = "All fields are required.";
+            error.status = 400;
+            return next(error);
+        }
+        
+        validatedBody = validateRequestPlate(validatedBody, req.body.plate, next);
+        validatedBody = validateRequestName(validatedBody, req.body.name, next);
 
-        let carplate = await db.Carplate.create(req.body);
+        let duplicateCarplate = await db.Carplate.findOne({ "plate": validatedBody.plate });
+
+        if(duplicateCarplate){
+            error.message = "Plate numbers are taken.";
+            error.status = 400;
+            return next(error);
+        }
+
+        let carplate = await db.Carplate.create(validatedBody);
         let { id, plate, name, createdAt } = carplate;
 
         return res.status(200).json({
             id, plate, name, createdAt
         });
-    } catch (err) {
-        if(err.code === 11000) {
-            err.message = "Sorry, creation has failed.";
+    } catch (error) {
+        if(error.code === 11000) {
+            error.message = "Sorry, creation has failed.";
         }
 
-        return next({
-            error,
-            body: req.body
-        });
+        return next(error);
     }
 };
 
@@ -93,27 +98,6 @@ exports.updateCarplate = async function(req, res, next) {
         let updatedCarplate =  await db.Carplate.findById({ "_id": req.params.carplate_id });
 
         return res.status(200).json( updatedCarplate );
-
-        // Validate req.body.name
-        // name to upperCase
-        // max === 30 && min === 3
-        // regex unwanted symbols
-
-        // let carplate = await db.Carplate.findById({ "_id": req.params.carplate_id });
-        
-        // if(req.body.name){
-        //     carplate.name = req.body.name;
-        // }   
-        // if(req.body.plate){
-        //     checkForDuplicate = await db.Carplate.find({ "plate": req.body.plate});
-        //     if(!checkForDuplicate) {
-        //         carplate.plate = req.body.plate;
-        //     }
-        // }   
-        // carplate = await carplate.();
-
-        // let updateCarplate = await db.Carplate.findByIdAndUpdate(req.params.carplate_id, req.body)
-        
     } catch(error) {
         return next(error);
     }
@@ -165,21 +149,18 @@ function validateRequestPlate(validatedBody, plate, next)
 {
     let error = {};
 
-    if(plate.length === PLATE_SYMBOLS_TOTAL) {
+    if(plate.length === PLATE_SYMBOLS_TOTAL) 
+    {
         let plateLetters = parseInt( plate.substring(0, 3));
         let plateDigits  = parseInt( plate.substring(3, 6));
         let areLetters = lettersAreAllNonDigits(plate.substring(0, 3));
+
         if( 
             (!isNaN(plateDigits) && plateDigits.toString().length === 3)
             &&
             (isNaN(plateLetters) && areLetters)
           )
         {   
-            console.log("original letters: " + plate.substring(0, 3));
-            console.log("parsed: " + parseInt( plate.substring(0, 3) ));
-            console.log("original digits: " + plate.substring(3, 6));
-            console.log("parsed: " + parseInt( plate.substring(3, 6) ));
-            
             validatedBody.plate = plate.substring(0, 3).toUpperCase() + plate.substring(3, 6).toString();
         }
         else {
