@@ -1,5 +1,10 @@
 # carplates-registration-system
 
+Simple CRUD app to list, add, update, remove car number plates with their owner names.
+Built using [Angular](https://angular.io/) for front end and [Node.js](https://nodejs.org/en/) for the backend API,
+[MongoDB](https://github.com/mongodb/mongo) for the database. 
+Visit documentation or read below how to install mongoDB on [Ubuntu](https://ubuntu.com/) OS.
+
 ### Setup
 
 Download the repository
@@ -7,22 +12,43 @@ Download the repository
 git clone https://github.com/av3000/carplates-registration-system.git
 ```
 
-*project uses [MongoDB](https://github.com/mongodb/mongo) for the database. Visit documentation or read below how to install on [Ubuntu](https://ubuntu.com/) OS.*
-
 ### Backend
 
 ```bash
-# go into the project repository
+# run your mongodb from its installed directory
+./mongodb
+```
+
+```bash
+# go into the node backend folder
 cd carplates-registration-system/api
 
 # install required modules/libraries
 npm install
+
+# run node server
+nodemon
 ```
 
 ### Frontend
 
 ```bash
-cd ../app
+# go into the angular app folder
+cd ../angular-app
+```
+
+In order for angular to work in your environment you need to download Angular CLI.
+More about [Angular](https://angular.io/guide/setup-local) installation.
+
+```bash
+# install Angular CLI
+npm install -g @angular/cli
+
+# install required modules/libraries
+npm install
+
+# run the angular app
+ng serve
 ```
 
 ### API Endpoints
