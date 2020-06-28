@@ -1,0 +1,15 @@
+ 
+.del {
+    background: #ff0000;
+    color: #fff;
+    border: none;
+    display: block;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.carplate {
+  background: #f4f4f4;
+  padding: 10px;
+  border-bottom: 1px #ccc dotted;
+}

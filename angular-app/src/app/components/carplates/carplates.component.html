@@ -1,0 +1,15 @@
+<app-form-carplate (addCarplate)="addCarplate($event)"></app-form-carplate>
+<div>{{ errorText }}</div>
+<app-carplate-item 
+    *ngFor="let carplate of carplates"
+    [carplate]="carplate"
+    (deleteCarplate)="deleteCarplate($event)"
+    >
+</app-carplate-item>
+<div class="pagination-lg">
+    <ul *ngFor="let page of pageNumbers">
+        <li class="page-item">
+            <a href="#">{{page}}</a>
+        </li>
+    </ul>
+</div>

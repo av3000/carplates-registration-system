@@ -6,16 +6,19 @@ const OWNER_NAME_MIN_LENGTH = 3;
 exports.storeCarplate = async function(req, res, next) {
     try {
         let error = {};
-        let validatedBody = {};
-
+        let validatedBody = {
+            name: "",
+            plate: ""
+        };
+        
         if( !req.body.plate || !req.body.name){
             error.message = "All fields are required.";
             error.status = 400;
             return next(error);
         }
-        
+  
         validatedBody = validateRequestPlate(validatedBody, req.body.plate, next);
-        validatedBody = validateRequestName(validatedBody, req.body.name, next);
+        validatedBody =  validateRequestName(validatedBody, req.body.name, next);
 
         let duplicateCarplate = await db.Carplate.findOne({ "plate": validatedBody.plate });
 
@@ -136,7 +139,9 @@ exports.updateCarplate = async function(req, res, next) {
 
 function regexValidateOnlyLetters(string)
 {
-    return (/^[a-zA-Z]+$/).test(string);
+    let temp = (/^[a-zA-Z]+$/).test(string);
+    console.log("regexed name value: " + temp);
+    return temp;
 };
 
 function lettersAreAllNonDigits(str){
@@ -154,10 +159,13 @@ function lettersAreAllNonDigits(str){
 function validateRequestName(validatedBody, name, next)
 {
     let error = {};
-
+    console.log("validateRequestName before name: ")
+    console.log(name);
+    
     if(name.length >= OWNER_NAME_MIN_LENGTH && name.length <= OWNER_NAME_MAX_LENGTH){
         if(regexValidateOnlyLetters(name)){
             validatedBody.name = name;
+            return validatedBody;
         }
         else {
             error.message = "Name must contain only letters.";
@@ -171,7 +179,6 @@ function validateRequestName(validatedBody, name, next)
         return next(error);
     }
 
-    return validatedBody;
 };
 
 function validateRequestPlate(validatedBody, plate, next)
@@ -191,6 +198,7 @@ function validateRequestPlate(validatedBody, plate, next)
           )
         {   
             validatedBody.plate = plate.substring(0, 3).toUpperCase() + plate.substring(3, 6).toString();
+            return validatedBody;
         }
         else {
             error.message = "Plate structure consists of 3 letters and 3 numbers. ex: AAA111 ";
@@ -203,6 +211,4 @@ function validateRequestPlate(validatedBody, plate, next)
         error.status = 400;
         return next(error);
     }
-
-    return validatedBody;
 };

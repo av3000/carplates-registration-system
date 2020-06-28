@@ -1,0 +1,7 @@
+<div [ngClass]="setClasses()">
+    <p>
+        {{ carplate.name }} | {{ carplate.plate }}
+        <button (click)="onDelete(carplate)" class="">Delete</button>
+        <button (click)="onEdit(carplate)" class="">Edit</button>
+    </p>
+</div>
