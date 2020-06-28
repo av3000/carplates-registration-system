@@ -18,16 +18,80 @@
     padding: 0 1rem;
   }
   
-  .btn {
-    border: none;
+  li .btn {
+    padding: 10px;
+  }
+  .active-page {
+    opacity: .6;
+  }
+
+  .btn, button {
     background: #555;
     color: #fff;
-    padding: 7px 20px;
-    border-radius: 10%;
+    cursor: pointer;
+  }
+ 
+  .btn:hover, .btn-group button:hover {
+    opacity: .7;
+  }
+
+  .btn-group {
+    display: inline;
     float: right;
     cursor: pointer;
   }
-  
-  .btn:hover {
-    background: #666;
+
+  .btn-group button {
+    margin-left: 5px;
+    padding: 5px;
   }
+
+  .btn-danger {
+    background-color: lightcoral;
+  }
+
+  .btn-primary {
+    background-color: skyblue;
+  }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.carplate {
+  background: #f4f4f4;
+  padding: 10px;
+  border-bottom: 1px #ccc dotted;
+}
+
+/* error */
+
+.error-field {
+  text-align: center;
+  text-transform: capitalize;
+  background-color: lightcoral;
+}
+
+/* Pagination */
+
+.pagination {
+  margin-top: 15px;
+  margin-left: 5px;
+}
+
+.pagination ul li{
+  display: inline;
+}
+
+/* carplate */
+
+div .car-info {
+  
+}
+
+div .car-info .name {
+  float:left;
+}
+
+div .car-info .plate {
+  margin-left: 10%;
+}

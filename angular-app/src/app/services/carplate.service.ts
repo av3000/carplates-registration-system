@@ -17,29 +17,13 @@ const httpOptions = {
 })
 export class CarplateService {
   carplatesUrl:string = 'http://localhost:8081/api/carplates';
-  carplatesLimit = '?items_per_page=5';
 
   constructor(private http:HttpClient) { }
 
-  getCarplates():Observable<CarplatePaginated> 
+  getCarplates( query:String ):Observable<CarplatePaginated> 
   {
-    return this.http.get<CarplatePaginated>(`${this.carplatesUrl}${this.carplatesLimit}`)
-      // .pipe(
-      //     retry(2),
-      //     catchError(this.handleError)
-      // );
+    return this.http.get<CarplatePaginated>(`${this.carplatesUrl}${query}`);
   }
-
-  // handleError(errorResponse: HttpErrorResponse) {
-  //   console.log("HandleError was hit");
-  //   if(errorResponse.error instanceof ErrorEvent) {
-  //     console.error("Client side error: ", errorResponse.error.message);
-  //   } else {
-  //     console.error("Server side error: ", errorResponse);
-  //   }
-
-  //   return throwError("There is a problem with the service!!!! We are notified and working on it!! kk bro");
-  // }
 
   deleteCarplate(carplate:Carplate):Observable<Carplate> {
     console.log("delete finally this carplate");
@@ -51,6 +35,5 @@ export class CarplateService {
     console.log("add new this carplate");
     console.log(carplate);
     return this.http.post<Carplate>(this.carplatesUrl, carplate, httpOptions)
-      // .pipe(catchError(this.handleError));
   }
 };

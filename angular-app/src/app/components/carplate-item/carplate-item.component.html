@@ -1,7 +1,10 @@
 <div [ngClass]="setClasses()">
-    <p>
-        {{ carplate.name }} | {{ carplate.plate }}
-        <button (click)="onDelete(carplate)" class="">Delete</button>
-        <button (click)="onEdit(carplate)" class="">Edit</button>
-    </p>
+        <span class="car-info">
+            <span class="plate" (click)="sortItems(carplate.name)">{{ carplate.name }}</span>
+            <span class="name" (click)="sortItems(carplate.plate)">{{ carplate.plate }}</span> 
+        </span>
+        <span class="btn-group">
+            <button (click)="onEdit(carplate)" class="btn-primary">Edit</button>
+            <button (click)="onDelete(carplate)" class="btn-danger">Delete</button>
+        </span>
 </div>

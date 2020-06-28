@@ -1,15 +1,37 @@
 <app-form-carplate (addCarplate)="addCarplate($event)"></app-form-carplate>
-<div>{{ errorText }}</div>
+
+<ng-container *ngIf="errorBlock">
+    <div class="error-field">{{ errorText }}</div>
+</ng-container>
+
+<br/>
+<div class="filters">
+    <label for="items_per_page">Items per page</label>
+    <select #mySelect ng-model="selectedItemsPerPage" (change)="filterItems(mySelect.value)">
+        <option *ngFor="let item of items" [value]="item">{{ item }}</option>
+    </select>
+</div>
+<br/>
+
 <app-carplate-item 
     *ngFor="let carplate of carplates"
     [carplate]="carplate"
     (deleteCarplate)="deleteCarplate($event)"
     >
 </app-carplate-item>
-<div class="pagination-lg">
-    <ul *ngFor="let page of pageNumbers">
-        <li class="page-item">
-            <a href="#">{{page}}</a>
+
+<div class="pagination">
+    <ul>
+        <li *ngFor="let pageNumber of pageNumbers">
+            <ng-container
+                *ngIf="pageNumber.toString() === page.toString(); then active; else inactive">
+            </ng-container>
+            <ng-template #active>
+                <button class="btn active-page" (click)="navigatePage(pageNumber)" >{{pageNumber}}</button>
+            </ng-template>
+            <ng-template #inactive>
+                <button class="btn" (click)="navigatePage(pageNumber)" >{{pageNumber}}</button>
+            </ng-template>
         </li>
     </ul>
 </div>
