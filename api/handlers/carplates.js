@@ -67,7 +67,7 @@ exports.deleteCarplate = async function(req, res, next) {
 
 exports.getAllCarplates = async function(req, res, next) {
     try {
-        const items_per_page = req.query.items_per_page    ? parseInt(req.query.items_per_page) : 10;
+        const items_per_page = req.query.items_per_page    ? parseInt(req.query.items_per_page) : 5;
         const page       = req.query.page     ? parseInt(req.query.page)  : 1;
         const sortby     = req.query.sortby   ? req.query.sortby          : "name";
         const orderby    = req.query.orderby  ? req.query.orderby         : "desc";
