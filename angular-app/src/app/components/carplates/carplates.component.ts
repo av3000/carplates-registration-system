@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { CarplateService } from '../../services/carplate.service';
 import { Carplate, CarplatePaginated } from '../../models/Carplate';
+
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { ModalComponent } from "../modal/modal.component";
 
 @Component({
   selector: 'app-carplates',
@@ -12,7 +14,7 @@ export class CarplatesComponent implements OnInit {
 
   carplatePaginated: CarplatePaginated;
   carplates: Carplate[];
-  
+
   errorBlock: Boolean = false;
   errorText: String = "";
 
@@ -29,9 +31,13 @@ export class CarplatesComponent implements OnInit {
   filterby:String = "name";
   query:String = "";
 
+  DELETE_MODAL_TYPE:String = "Delete";
+  CREATE_MODAL_TYPE:String = "Create";
+  EDIT_MODAL_TYPE:String   = "Edit";
+
   constructor(
     private carplateService: CarplateService,
-    private route: ActivatedRoute
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -48,20 +54,109 @@ export class CarplatesComponent implements OnInit {
     });
   }
 
-  deleteCarplate(carplate:Carplate) {
-    this.carplates = this.carplates.filter(c => c._id !== carplate._id)
-    this.carplateService.deleteCarplate(carplate).subscribe();
+  // CUD methods
+  deleteCarplate(val) {
+    this.carplates = this.carplates.filter(c => c._id !== val._id)
+    this.carplateService.deleteCarplate(val).subscribe();
   }
 
-  addCarplate(carplate:Carplate) {
+  addCarplate(val) {
     this.errorBlock = false; // hide previous error
-    this.carplateService.addCarplate(carplate).subscribe(newCarplate => {
+    this.carplateService.addCarplate(val).subscribe(newCarplate => {
       this.carplates.push(newCarplate);
     },
     errorResponse => {
       this.errorBlock = true;
       this.errorText = errorResponse.error.error.message;
     });
+  }
+
+  updateCarplate(val) {
+    this.carplates.find(c => {
+      if(c._id === val._id){
+        if(val.plate !== c.plate || val.name !== c.name){
+          this.carplateService.updateCarplate(val).subscribe(() => {
+              c.plate = val.plate;
+              c.name = val.name;
+          },
+            errorResponse => {
+            this.errorBlock = true;
+            this.errorText = errorResponse.error.error.message;
+          });
+        }
+      }
+    });
+  }
+
+  // Modals logic
+  removeCarplate({plate, name, _id}:Carplate) {
+    let modalType = this.DELETE_MODAL_TYPE;
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      plate, name, _id, modalType
+    };
+
+    const dialogRef = this.dialog.open(ModalComponent,
+        dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+        val => {
+          if(val && modalType === this.DELETE_MODAL_TYPE) {
+            this.deleteCarplate(val);
+          }
+        }
+    );
+  }
+
+  editCarplate({plate, name, _id}:Carplate) {
+    let modalType = this.EDIT_MODAL_TYPE;
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      plate, name, _id, modalType
+    };
+
+    const dialogRef = this.dialog.open(ModalComponent,
+        dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+        val => {
+          if(val && modalType === this.EDIT_MODAL_TYPE) {
+            this.updateCarplate(val);
+          }
+        }
+    );
+  }
+
+  createCarplate() {
+    let modalType = this.CREATE_MODAL_TYPE;
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      modalType
+    };
+
+    const dialogRef = this.dialog.open(ModalComponent,
+        dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+        val => {
+          if(val && modalType === this.CREATE_MODAL_TYPE){
+            // create
+            this.addCarplate(val);
+          }
+        }
+    );
   }
   
   generateQuery() {

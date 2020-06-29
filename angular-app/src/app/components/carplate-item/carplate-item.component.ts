@@ -10,9 +10,10 @@ import { Carplate } from 'src/app/models/Carplate';
 })
 export class CarplateItemComponent implements OnInit {
   @Input() carplate: Carplate;
-  @Output() deleteCarplate: EventEmitter<Carplate> = new EventEmitter();
+  @Output() editCarplate: EventEmitter<Carplate> = new EventEmitter();
+  @Output() removeCarplate: EventEmitter<Carplate> = new EventEmitter();
   constructor(private carplateService:CarplateService) { }
-
+  
   ngOnInit(): void {
   }
 
@@ -26,12 +27,11 @@ export class CarplateItemComponent implements OnInit {
   }
 
   onDelete(carplate) {
-    this.deleteCarplate.emit(carplate);
+    this.removeCarplate.emit(carplate);
   };
 
   onEdit(carplate) {
-    console.log("onEdit not implemented yet");
-    console.log(carplate);
+    this.editCarplate.emit(carplate);
   };
 
 }

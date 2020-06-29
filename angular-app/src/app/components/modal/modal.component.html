@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>{{modalTitle}}</h2>
+
+<mat-dialog-content [formGroup]="form">
+
+    <ng-template [ngIf]="modalType !== DELETE_MODAL_TYPE" [ngIfElse]="deletion">
+        <mat-form-field>
+            <input 
+                matInput
+                placeholder="Car plate number"
+                formControlName="plate"
+                maxlength="6"
+                minlength="6"
+                required
+            >
+        </mat-form-field>
+        <br/>
+        <mat-form-field>
+            <input 
+                matInput
+                placeholder="Owner name"
+                formControlName="name"
+                maxlength="30"
+                minlength="3"
+                required
+            >
+        </mat-form-field>
+       </ng-template>
+       
+       <ng-template #deletion>
+        <label for="plate">{{plate}}</label>
+        <br/>
+        <label for="name">{{name}}</label>
+       </ng-template>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+
+    <button class="mat-raised-button"
+            (click)="close()">
+        Cancel
+    </button>
+
+    <button class="mat-raised-button mat-primary"
+            (click)="save()">
+            {{confirmBtnText}}
+    </button>
+
+</mat-dialog-actions>

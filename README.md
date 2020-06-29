@@ -5,7 +5,17 @@ Built using [Angular](https://angular.io/) for front end and [Node.js](https://n
 [MongoDB](https://github.com/mongodb/mongo) for the database. 
 Visit documentation or read below how to install mongoDB on [Ubuntu](https://ubuntu.com/) OS.
 
-### Setup
+## Installation pre-requisites
+
+For running this project we need and npm installed on our machine. These are some tutorials to install node in different operating systems:
+
+*Its important to install the latest version of Node*
+
+- [Install Node and NPM on Windows](https://www.youtube.com/watch?v=8ODS6RM6x7g)
+- [Install Node and NPM on Linux](https://www.youtube.com/watch?v=yUdHk-Dk_BY)
+- [Install Node and NPM on Mac](https://www.youtube.com/watch?v=Imj8PgG3bZU)
+
+## Setup
 
 Download the repository
 ```bash
@@ -29,6 +39,8 @@ npm install
 # run node server
 nodemon
 ```
+
+The application is visible at port 8081 - [http://localhost:8081](http://localhost:8081)
 
 To test if API works you can use [httpie](https://httpie.org/docs#installation) or [Postman](https://www.postman.com/).
 
@@ -57,7 +69,7 @@ http GET http://localhost:8081/api/carplates
 ### Frontend instructions
 
 ```bash
-# go into the angular app folder
+# go into the angular app folder:
 cd ../angular-app
 ```
 
@@ -65,15 +77,18 @@ In order for angular to work in your environment you need to download Angular CL
 More about [Angular](https://angular.io/guide/setup-local) installation.
 
 ```bash
-# install Angular CLI
+# With the following command the angular-cli will be installed globally in your machine:
 npm install -g @angular/cli
 
-# install required modules/libraries
+# install required modules/libraries:
 npm install
 
-# run the angular app
+# run the angular app:
+npm start
+# or
 ng serve
 ```
+The application is visible at port 4200 - [http://localhost:4200](http://localhost:4200)
 
 ### API Endpoints
 

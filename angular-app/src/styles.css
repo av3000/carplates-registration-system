@@ -69,6 +69,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   text-align: center;
   text-transform: capitalize;
   background-color: lightcoral;
+  padding: 15px;
+  font-weight: bold;
 }
 
 /* Pagination */
@@ -84,14 +86,30 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* carplate */
 
-div .car-info {
-  
-}
-
 div .car-info .name {
   float:left;
 }
 
 div .car-info .plate {
   margin-left: 10%;
+}
+
+.search-form .new-carplate {
+  margin: 5px;
+  margin-left: 10px;
+}
+
+/* Search & Filters */
+
+.filters-form {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.search-form button{
+  margin-right: 10px;
+}
+
+.search-form {
+  float:right;
 }

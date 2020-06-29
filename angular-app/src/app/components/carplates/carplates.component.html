@@ -1,47 +1,43 @@
-<app-form-carplate (addCarplate)="addCarplate($event)"></app-form-carplate>
+<div class="search-form">
+    <button mat-raised-button color="basic" (click)="searchKeyword(searchInput.value)" >Find owner</button>
+    <mat-form-field class="example-full-width">
+        <mat-label>Search</mat-label>
+        <input #searchInput matInput name="search" placeholder="Ex. Johndoe">
+    </mat-form-field>
+    <button class="new-carplate" (click)="createCarplate()" mat-raised-button color="primary">New Carplate</button>
+</div>
 
+<br/>
+<mat-form-field class="filters-form">
+    <mat-label>Items per page</mat-label>
+    <select matNativeControl required #myFilterSelect ng-model="selectedItemsPerPage" (change)="filterItems(myFilterSelect.value)">
+        <option *ngFor="let item of items" [value]="item">{{ item }}</option>
+    </select>
+</mat-form-field>
+
+<mat-form-field class="filters-form">
+    <mat-label>Sort by</mat-label>
+    <select matNativeControl required #mySortSelect ng-model="sortOptions" (change)="sortItems(mySortSelect.value)">
+        <option *ngFor="let option of sortOptions" [value]="option">{{ option }}</option>
+    </select>
+</mat-form-field>
+
+<mat-form-field class="filters-form">
+    <mat-label>Order by</mat-label>
+    <select matNativeControl required #myOrderSelect ng-model="orderOptions" (change)="orderItems(myOrderSelect.value)">
+        <option *ngFor="let option of orderOptions" [value]="option">{{ option }}</option>
+    </select>
+</mat-form-field>
+<br/>
 <ng-container *ngIf="errorBlock">
     <div class="error-field">{{ errorText }}</div>
 </ng-container>
-
 <br/>
-<div class="search">
-    <label for="search">search</label>
-    <input
-        #searchInput 
-        type="text"
-        name="search"
-        placeholder="Johndoe"
-    />
-    <button class="btn" (click)="searchKeyword(searchInput.value)" >search</button>
-</div>
-
-<div class="filters">
-    <label for="items_per_page">Items per page</label>
-    <select #myFilterSelect ng-model="selectedItemsPerPage" (change)="filterItems(myFilterSelect.value)">
-        <option *ngFor="let item of items" [value]="item">{{ item }}</option>
-    </select>
-</div>
-
-<div class="sort">
-    <label for="sort">Sort by</label>
-    <select #mySortSelect ng-model="sortOptions" (change)="sortItems(mySortSelect.value)">
-        <option *ngFor="let option of sortOptions" [value]="option">{{ option }}</option>
-    </select>
-</div>
-
-<div class="order">
-    <label for="order">Order by</label>
-    <select #myOrderSelect ng-model="orderOptions" (change)="orderItems(myOrderSelect.value)">
-        <option *ngFor="let option of orderOptions" [value]="option">{{ option }}</option>
-    </select>
-</div>
-<br/>
-
 <app-carplate-item 
-    *ngFor="let carplate of carplates"
-    [carplate]="carplate"
-    (deleteCarplate)="deleteCarplate($event)"
+        *ngFor="let carplate of carplates"
+        [carplate]="carplate"
+        (removeCarplate)="removeCarplate($event)"
+        (editCarplate)="editCarplate($event)"
     >
 </app-carplate-item>
 
