@@ -12,7 +12,7 @@ Download the repository
 git clone https://github.com/av3000/carplates-registration-system.git
 ```
 
-### Backend
+### Backend instructions
 
 ```bash
 # run your mongodb from its installed directory
@@ -30,7 +30,31 @@ npm install
 nodemon
 ```
 
-### Frontend
+To test if API works you can use [httpie](https://httpie.org/docs#installation) or [Postman](https://www.postman.com/).
+
+```bash
+# httpie way of testing the route
+http GET http://localhost:8081/api/carplates
+
+# response 
+{
+    "carplates": [
+    {
+      "_id": "5ef798318fb9f822cd48ac4c",
+      "plate": "ABC500",
+      "name": "wade",
+      "createdAt": "2020-06-27T19:04:18.006Z",
+      "updatedAt": "2020-06-27T19:04:18.006Z",
+      "__v": 0
+    },
+    ...
+    "page": 1,
+    "total": 16,
+    "items_per_page": 5
+}
+```
+
+### Frontend instructions
 
 ```bash
 # go into the angular app folder

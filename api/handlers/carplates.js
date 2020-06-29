@@ -55,7 +55,6 @@ exports.getCarplate = async function(req, res, next) {
 
 exports.deleteCarplate = async function(req, res, next) {
     try {
-        console.log(req.params);
         let foundCarplate = await db.Carplate.findById({ "_id": req.params.carplate_id });
         await foundCarplate.remove();
 
@@ -106,8 +105,6 @@ exports.getAllCarplates = async function(req, res, next) {
 
 exports.updateCarplate = async function(req, res, next) {
     try {
-        console.log("REQUEST BODY: ");
-        console.log(req.body);
         let validatedBody = {};
         
         if(req.body.plate) {
@@ -118,8 +115,6 @@ exports.updateCarplate = async function(req, res, next) {
             validatedBody = validateRequestName(validatedBody, req.body.name, next);
         }
 
-        console.log("VALIDATED BODY: ")
-        console.log(validatedBody);
         let oldCarplate =  await db.Carplate.findById({ "_id": req.params.carplate_id });
 
         await db.Carplate.findByIdAndUpdate(req.params.carplate_id, {
@@ -140,15 +135,12 @@ exports.updateCarplate = async function(req, res, next) {
 function regexValidateOnlyLetters(string)
 {
     let temp = (/^[a-zA-Z]+$/).test(string);
-    console.log("regexed name value: " + temp);
     return temp;
 };
 
 function lettersAreAllNonDigits(str){
     for(let i=0; i<str.length; i++){
-        console.log("current: " + str[i] + " and parsed: " + parseInt(str[i]));
         if( isNaN(parseInt(str[i])) === false  || regexValidateOnlyLetters(str[i]) === false) {
-            console.log("bad letter")
             return false;
         }
     }
@@ -159,8 +151,6 @@ function lettersAreAllNonDigits(str){
 function validateRequestName(validatedBody, name, next)
 {
     let error = {};
-    console.log("validateRequestName before name: ")
-    console.log(name);
     
     if(name.length >= OWNER_NAME_MIN_LENGTH && name.length <= OWNER_NAME_MAX_LENGTH){
         if(regexValidateOnlyLetters(name)){

@@ -1,7 +1,7 @@
 <div [ngClass]="setClasses()">
         <span class="car-info">
-            <span class="plate" (click)="sortItems(carplate.name)">{{ carplate.name }}</span>
-            <span class="name" (click)="sortItems(carplate.plate)">{{ carplate.plate }}</span> 
+            <span class="plate" >{{ carplate.name }}</span>
+            <span class="name" >{{ carplate.plate }}</span> 
         </span>
         <span class="btn-group">
             <button (click)="onEdit(carplate)" class="btn-primary">Edit</button>

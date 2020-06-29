@@ -26,14 +26,11 @@ export class CarplateItemComponent implements OnInit {
   }
 
   onDelete(carplate) {
-    console.log("onDelete");
-    console.log(carplate);
-
     this.deleteCarplate.emit(carplate);
   };
 
   onEdit(carplate) {
-    console.log("onEdit");
+    console.log("onEdit not implemented yet");
     console.log(carplate);
   };
 

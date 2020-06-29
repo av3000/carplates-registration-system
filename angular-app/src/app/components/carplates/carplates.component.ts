@@ -18,10 +18,15 @@ export class CarplatesComponent implements OnInit {
 
   pageNumbers: Array<number>;
   items: Array<number> = [5, 10, 15]; // per page options
+  sortOptions: Array<String> = ["name", "plate"];
+  orderOptions: Array<String> = ["desc", "asc"];
   items_per_page:String;
   total:Number;
-  page: String;
-  sortby:String;
+  page: String = "1";
+  sortby:String = "name";
+  orderby:String = "desc";
+  filter:String = "";
+  filterby:String = "name";
   query:String = "";
 
   constructor(
@@ -31,13 +36,13 @@ export class CarplatesComponent implements OnInit {
 
   ngOnInit() {
     this.carplateService.getCarplates(this.query).subscribe(res => {
-      console.log(res);
       this.carplatePaginated = res;
       this.total = res.total;
       this.items_per_page = res.items_per_page.toString();
       this.page = res.page.toString();
       this.carplates = res.carplates;
-      // pages number 
+
+      // pages number generating 
       let pagesTotal = Math.ceil(res.total/res.items_per_page); 
       this.pageNumbers = [...Array(pagesTotal).keys()].map(i => (i+1));
     });
@@ -54,7 +59,6 @@ export class CarplatesComponent implements OnInit {
       this.carplates.push(newCarplate);
     },
     errorResponse => {
-      console.log(errorResponse.error.error.message);
       this.errorBlock = true;
       this.errorText = errorResponse.error.error.message;
     });
@@ -63,16 +67,18 @@ export class CarplatesComponent implements OnInit {
   generateQuery() {
     this.query = "?" + "page="+this.page || "";
     this.query += "&items_per_page=" + this.items_per_page || "";
-    this.query += "&sortby=" + this.
-    console.log("query: " + this.query);
+    this.query += "&sortby=" + this.sortby || "";
+    this.query += "&orderby=" + this.orderby || "";
+    this.query += "&filter=" + this.filter || "";
+    this.query += "&filterby=" + this.filterby || "";
 
     this.carplateService.getCarplates(this.query).subscribe(res => {
-      console.log(res);
       this.carplatePaginated = res;
       this.total = res.total;
       this.items_per_page = res.items_per_page.toString();
       this.page = res.page.toString();
       this.carplates = res.carplates;
+
       // pages number 
       let pagesTotal = Math.ceil(res.total/res.items_per_page); 
       this.pageNumbers = [...Array(pagesTotal).keys()].map(i => (i+1));
@@ -82,7 +88,6 @@ export class CarplatesComponent implements OnInit {
   }
 
   filterItems(itemOpt){
-    console.log("itemOpt: " + itemOpt);
     this.items_per_page = itemOpt;
     this.page = "1";
     this.generateQuery();
@@ -93,9 +98,18 @@ export class CarplatesComponent implements OnInit {
     this.generateQuery();
   }
 
-  sortItems(option){
-    console.log("sortby option: " + option);
-    this.sortby = option;
+  sortItems(sortOption){
+    this.sortby = sortOption;
+    this.generateQuery();
+  }
+
+  orderItems(orderOption){
+    this.orderby = orderOption;
+    this.generateQuery();
+  }
+
+  searchKeyword(keyword) {
+    this.filter = keyword;
     this.generateQuery();
   }
 };

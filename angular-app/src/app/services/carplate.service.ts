@@ -26,14 +26,11 @@ export class CarplateService {
   }
 
   deleteCarplate(carplate:Carplate):Observable<Carplate> {
-    console.log("delete finally this carplate");
     const url = `${this.carplatesUrl}/${carplate._id}`;
     return this.http.delete<Carplate>(url, httpOptions);
   }
 
   addCarplate(carplate:Carplate):Observable<Carplate> {
-    console.log("add new this carplate");
-    console.log(carplate);
     return this.http.post<Carplate>(this.carplatesUrl, carplate, httpOptions)
   }
 };

@@ -5,10 +5,35 @@
 </ng-container>
 
 <br/>
+<div class="search">
+    <label for="search">search</label>
+    <input
+        #searchInput 
+        type="text"
+        name="search"
+        placeholder="Johndoe"
+    />
+    <button class="btn" (click)="searchKeyword(searchInput.value)" >search</button>
+</div>
+
 <div class="filters">
     <label for="items_per_page">Items per page</label>
-    <select #mySelect ng-model="selectedItemsPerPage" (change)="filterItems(mySelect.value)">
+    <select #myFilterSelect ng-model="selectedItemsPerPage" (change)="filterItems(myFilterSelect.value)">
         <option *ngFor="let item of items" [value]="item">{{ item }}</option>
+    </select>
+</div>
+
+<div class="sort">
+    <label for="sort">Sort by</label>
+    <select #mySortSelect ng-model="sortOptions" (change)="sortItems(mySortSelect.value)">
+        <option *ngFor="let option of sortOptions" [value]="option">{{ option }}</option>
+    </select>
+</div>
+
+<div class="order">
+    <label for="order">Order by</label>
+    <select #myOrderSelect ng-model="orderOptions" (change)="orderItems(myOrderSelect.value)">
+        <option *ngFor="let option of orderOptions" [value]="option">{{ option }}</option>
     </select>
 </div>
 <br/>
