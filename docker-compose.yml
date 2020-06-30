@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  angular:
+    build: angular-app
+    ports:
+      - "4200:4200"
+
+  express:
+    build: api
+    ports:
+      - "8081:8081"
+    links:
+      - database
+    environment:
+      - MONGODB_URI=mongodb://database:27017/carplates-system
+
+  database:
+    image: mongo
+    ports:
+      - "27017:27017"

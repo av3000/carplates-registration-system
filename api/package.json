@@ -4,6 +4,8 @@
   "description": "car plates api",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "seed": "cd models/seed && node carplates-seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "AV3000",
