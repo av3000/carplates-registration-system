@@ -155,3 +155,14 @@ In order to use mongoDB during the development, need to keep it running in the b
 ```bash
 ./mongod
 ```
+
+### Features
+
+- [x] Backend Nodejs CRUD API;
+- [x] Angular CRUD carplate {id, plate, name};
+- [x] Edit, Create & Delete with modal;
+- [x] Carplate input validation;
+- [x] Search;
+- [x] Pagination;
+- [x] Docker container setup;
+- [ ] Testing
