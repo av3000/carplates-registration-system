@@ -15,7 +15,25 @@ For running this project we need and npm installed on our machine. These are som
 - [Install Node and NPM on Linux](https://www.youtube.com/watch?v=yUdHk-Dk_BY)
 - [Install Node and NPM on Mac](https://www.youtube.com/watch?v=Imj8PgG3bZU)
 
-## Setup
+# Setup
+
+## Setup option using Docker
+
+Make sure you have [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/) installed on you machine.
+
+```bash
+# all you need is run
+docker-compose up
+
+# depending on your setup you may need to use
+```bash
+sudo docker-compose up
+```
+
+Thats it, the api is visible at port 8081 - [http://localhost:8081](http://localhost:8081)
+and the angular app is visible at port 4200 - [http://localhost:4200](http://localhost:4200)
+
+## Setup option to use locally
 
 Download the repository
 ```bash
