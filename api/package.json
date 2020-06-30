@@ -4,7 +4,8 @@
   "description": "car plates api",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js",
+    "test": "jest"
   },
   "author": "AV3000",
   "license": "ISC",
@@ -12,6 +13,7 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jest": "^26.1.0",
     "mongoose": "^5.9.20",
     "nodemon": "^2.0.4"
   }
